@@ -76,7 +76,7 @@ Algorithm Comparison
 +------------------------+---------------------------------------+-------------------+--------------------+
 | ``stdin-compatible``   | yes                                   | yes               | no                 |
 +------------------------+---------------------------------------+-------------------+--------------------+
-| space complexity       | ``O(sample_size * max(record_size))`` | ``O(`)``          | ``O(sample_size)`` |
+| space complexity       | ``O(sample_size * max(record_size))`` | ``O(1)``          | ``O(sample_size)`` |
 +------------------------+---------------------------------------+-------------------+--------------------+
 | fixed sample size      | compatible                            | not compatible    | compatible         |
 +------------------------+---------------------------------------+-------------------+--------------------+
@@ -86,7 +86,7 @@ Algorithm Comparison
 Reservoir Sampling
 ******************
 
-Reservoir sampling (`Random Sampling with a Reservoir (Vitter 85) <http://www.mathcs.emory.edu/~cheung/papers/StreamDB/RandomSampling/1985-Vitter-Random-sampling-with-reservior.pdf>`)
+Reservoir sampling (`Random Sampling with a Reservoir (Vitter 85) <http://www.mathcs.emory.edu/~cheung/papers/StreamDB/RandomSampling/1985-Vitter-Random-sampling-with-reservior.pdf>`__)
 is a method of sampling from a stream of unknown size where the sample size is
 fixed in advance. It is a one-pass algorithm and uses space proportional to the
 amount of data in the sample.
