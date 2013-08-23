@@ -1,8 +1,10 @@
 
 from setuptools import setup
 
+import sample
+
 setup(name = 'sample-cli',
-      version = '0.0.1',
+      version = sample.__version__,
       description = 'Command-line interface for sampling lines from text files',
       author = 'Paul Butler',
       author_email = 'paulgb@gmail.com',
