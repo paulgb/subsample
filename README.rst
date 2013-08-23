@@ -7,6 +7,13 @@ newline-separated dataset (typically a CSV-like file).
 Installation
 ------------
 
+``sample`` is distributed with ``pip``. Once you've installed ``pip``,
+simply run::
+
+    > pip install sample-cli
+
+and sample will be installed into your Python environment.
+
 Usage
 -----
 
