@@ -24,8 +24,8 @@ the reservoir and approximate algorithms can be used).
 Simple Example
 **************
 
-To take a sample of size 1000 from the file ``big_data.csv``, we
-could run ``sample`` as follows::
+To take a sample of size 1000 from the file ``big_data.csv``,
+run ``sample`` as follows::
 
     > sample -n 1000 big_data.csv
 
@@ -37,7 +37,7 @@ File Redirection
 Usually we want to save the sample to another file instead.
 ``sample`` doesn't have file output built-in; instead it relies
 on the output redirection features of your terminal. To save
-to ``big_data_sample.csv``, we can run the following command::
+to ``big_data_sample.csv``, run the following command::
 
     > sample -n 1000 big_data.csv > big_data_sample.csv
 
@@ -125,7 +125,7 @@ Example::
 
     > sample --approximate -f 0.15 my_data.csv > my_sample.csv
 
-Equivalently, we can supply a percentage instead of a fraction by switching the
+Equivalently, supply a percentage instead of a fraction by switching the
 ``-f`` to a ``-p``::
 
     > sample --approximate -p 15 my_data.csv > my_sample.csv
