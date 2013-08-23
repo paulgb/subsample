@@ -69,6 +69,9 @@ Sampling Algorithms
 Algorithm Comparison
 ********************
 
+``sample`` implements three sampling algorithms, each with their own strengths
+and weaknesses.
+
 +------------------------+---------------------------------------+-------------------+--------------------+
 |                        | Reservoir                             | Approximate       | Two-pass           |
 +========================+=======================================+===================+====================+
