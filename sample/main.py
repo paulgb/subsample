@@ -1,78 +1,62 @@
 
+'''
+Sample lines from text files (for example, rows of a .csv or .tsv file)
+from the command line.
+'''
+
 import argparse
-from sys import stdin, stderr
-from itertools import islice, chain
-import random
+from sys import stderr
+from itertools import chain
+
+from algorithms import reservoir_sample, approximate_sample, two_pass_sample
+from file_input import FileInput
+
 
 DEFAULT_FRACTION = 0.01
 DEFAULT_SAMPLE_SIZE = 100
 
 PERCENT = 100
 
-class FileInput(object):
-    def __init__(self, filename, header_rows):
-        self.filename = filename
-        self.header_rows = header_rows
-
-    def get_input(self):
-        if self.filename == '-':
-            fh = stdin
-        else:
-            fh = open(self.filename)
-        self.header = list()
-        for i in range(self.header_rows):
-            self.header.append(fh.readline())
-        return fh
-
-
-def reservoir_sample(rows, sample_size):
-    reservoir = list(islice(rows, sample_size))
-    for i, row in enumerate(rows, sample_size):
-        r = random.randint(0, i)
-        if r < sample_size:
-            reservoir[r] = row
-    return reservoir
-
-
-def stochastic_sample(rows, fraction):
-    for row in rows:
-        if random.random() < fraction:
-            yield row
-
-
-def two_pass_sample(row_function, sample_size=None, fraction=None):
-    population_size = sum(1 for _ in row_function())
-
-    if fraction is not None:
-        sample_size = round(population_size * fraction)
-    sample = set(random.sample(xrange(population_size), sample_size))
-
-    rows = row_function()
-    def row_generator():
-        for i, row in enumerate(rows):
-            if i in sample:
-                yield row
-    return row_generator()
-
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_file', nargs='?', default='-')
-    parser.add_argument('--seed', '-s', type=int, default=None)
-    parser.add_argument('--header-rows', '-r', type=int, default=0)
+    parser = argparse.ArgumentParser(prog='sample', description=__doc__)
+    parser.add_argument('input_file', default='-',
+            help='csv, tsv, or other newline-separated data file')
+    parser.add_argument('--seed', '-s', type=int, default=None,
+            help='random number generator seed, for reproducable results')
+    parser.add_argument('--header-rows', '-r', type=int, nargs='?', const=1, default=0,
+            help='number of header rows to preserve in sample')
 
-    parser.add_argument('--percent', '-p', type=float, default=None)
-    parser.add_argument('--fraction', '-f', type=float, default=None)
-    parser.add_argument('--sample-size', '-n', type=int, default=None)
+    parser.add_argument('--percent', '-p', type=float, default=None,
+            help='specify sample size as a percent of total')
+    parser.add_argument('--fraction', '-f', type=float, default=None,
+            help='specify sample size as a fraction of total')
+    parser.add_argument('--sample-size', '-n', type=int, default=None,
+            help='specify number of samples directy')
 
-    parser.add_argument('--stochastic', '-stoc', nargs='?', const=True, default=False)
-    parser.add_argument('--reservoir', '-res', nargs='?', const=True, default=False)
-    parser.add_argument('--two-pass', '-tp', nargs='?', const=True, default=False)
+    parser.add_argument('--approximate', '-app', action='store_true',
+            default=False,
+            help='Use approximate algorithm. Requires sample size to be specified '+
+                 'as a percent or fraction. One-pass and constant space, but sample '+
+                 'size is not guaranteed to be exact.')
+    parser.add_argument('--reservoir', '-res', action='store_true',
+            help='Use one-pass reservoir sampling algorithm. Sample size must be fixed. '+
+                 'Sample must fit in memory. Used by default if no '+
+                 'other algorithm is specified.')
+    parser.add_argument('--two-pass', '-tp', action='store_true',
+            default=False,
+            help='Use two-pass sampling algorithm. List of indices to sample must fit '+
+                 'in memory.')
+
     args = parser.parse_args()
 
-    fi = FileInput(args.input_file, args.header_rows)
-    if args.seed is not None:
-        random.seed(args.seed)
+    if (not args.two_pass) and (not args.approximate):
+        args.reservoir = True
+
+    if args.two_pass and args.input_file == '-':
+        print >> stderr, ('The two-pass algorithm does not support standard input. '
+            'Use another algorithm or save to a file first.')
+        exit(1)
 
     if args.percent is not None and args.fraction is not None:
         print >> stderr, 'If percent is specified, fraction must not be'
@@ -86,17 +70,24 @@ def main():
         exit(1)
 
     if (args.fraction is not None) and args.reservoir:
-        print >> stderr, 'percent and fraction cannot be used with reservoir algorithm; use sample size instead.'
+        print >> stderr, ('percent and fraction cannot be used with reservoir algorithm; '
+            'use sample size instead.')
         exit(1)
 
-    if (args.sample_size is not None) and args.stochastic:
-        print >> stderr, 'sample size cannot be given with the stochastic algorithm; use fraction or percent instead.'
+    if (args.sample_size is not None) and args.approximate:
+        print >> stderr, ('sample size cannot be given with the approximate algorithm; '
+            'use fraction or percent instead.')
         exit(1)
 
-    if args.stochastic:
+    fi = FileInput(args.input_file, args.header_rows)
+
+    if args.seed is not None:
+        random.seed(args.seed)
+
+    if args.approximate:
         if args.fraction is None:
             args.fraction = DEFAULT_FRACTION
-        sample = stochastic_sample(fi.get_input(), args.fraction)
+        sample = approximate_sample(fi.get_input(), args.fraction)
 
     elif args.two_pass:
         if args.fraction:
