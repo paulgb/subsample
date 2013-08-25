@@ -93,12 +93,14 @@ and weaknesses.
 | fractional sample size | not compatible | compatible     | compatible |
 +------------------------+----------------+----------------+------------+
 
-For space complexity, `ss` is the number of records in the sample and `rs` is the maximum size of a record.
+For space complexity, ``ss`` is the number of records in the sample and
+``rs`` is the maximum size of a record.
 
 Reservoir Sampling
 ******************
 
-Reservoir sampling (`Random Sampling with a Reservoir (Vitter 85) <http://www.mathcs.emory.edu/~cheung/papers/StreamDB/RandomSampling/1985-Vitter-Random-sampling-with-reservior.pdf>`__)
+Reservoir sampling (`Random Sampling with a Reservoir (Vitter 85)
+<http://www.mathcs.emory.edu/~cheung/papers/StreamDB/RandomSampling/1985-Vitter-Random-sampling-with-reservior.pdf>`__)
 is a method of sampling from a stream of unknown size where the sample size is
 fixed in advance. It is a one-pass algorithm and uses space proportional to the
 amount of data in the sample.
