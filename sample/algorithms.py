@@ -2,6 +2,8 @@
 from itertools import islice
 import random
 
+import logging
+
 def reservoir_sample(rows, sample_size):
     '''
     Reservoir sampling algorithm (see Random Sampling
@@ -9,11 +11,17 @@ def reservoir_sample(rows, sample_size):
 
     One-pass; entire sample must fit in memory
     '''
+
+    # initialize the reservoir with the first sample_size items
     reservoir = list(islice(rows, sample_size))
+
     for i, row in enumerate(rows, sample_size):
+        # for each item, choose whether it becomes part of the
+        # reservoir with decreasing probability
         r = random.randint(0, i)
         if r < sample_size:
             reservoir[r] = row
+
     return reservoir
 
 
@@ -28,28 +36,27 @@ def approximate_sample(rows, fraction):
 
     One pass; constant space
     '''
+
     for row in rows:
+        # for each element, choose with probability given
+        # by (fraction) whether it should be part of the sample
         if random.random() < fraction:
             yield row
 
 
-def two_pass_sample(row_function, sample_size=None, fraction=None):
+def two_pass_sample(rows, sample_size=None, fraction=None):
     '''
     Make two passes at the data. The first pass determines the
-    size. Then a set of sample_size indices pointing to the data
-    is created. In the second pass, rows which match the set are
-    emitted.
+    size. In the second pass, rows which are part of the sample
+    are emitted.
     '''
-    population_size = sum(1 for _ in row_function())
+    population_size = sum(1 for _ in rows)
 
-    if fraction is not None:
-        sample_size = round(population_size * fraction)
-    sample = set(random.sample(xrange(population_size), sample_size))
+    for row in rows:
+        # choose 
+        if random.randint(0, population_size - 1) < sample_size:
+            yield row
+            sample_size -= 1
+        population_size -= 1
 
-    rows = row_function()
-    def row_generator():
-        for i, row in enumerate(rows):
-            if i in sample:
-                yield row
-    return row_generator()
 

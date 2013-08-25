@@ -7,10 +7,12 @@ from the command line.
 import argparse
 from sys import stderr
 from itertools import chain
+import logging
 
 from algorithms import reservoir_sample, approximate_sample, two_pass_sample
 from file_input import FileInput
 
+logging.basicConfig(level=logging.DEBUG, format='LOG %(asctime)s > %(message)s', datefmt='%H:%M')
 
 DEFAULT_FRACTION = 0.01
 DEFAULT_SAMPLE_SIZE = 100
@@ -87,20 +89,20 @@ def main():
     if args.approximate:
         if args.fraction is None:
             args.fraction = DEFAULT_FRACTION
-        sample = approximate_sample(fi.get_input(), args.fraction)
+        sample = approximate_sample(fi, args.fraction)
 
     elif args.two_pass:
         if args.fraction:
-            sample = two_pass_sample(fi.get_input, fraction=args.fraction)
+            sample = two_pass_sample(fi, fraction=args.fraction)
         else:
             if args.sample_size is None:
                 args.sample_size = DEFAULT_SAMPLE_SIZE
-            sample = two_pass_sample(fi.get_input, sample_size=args.sample_size)
+            sample = two_pass_sample(fi, sample_size=args.sample_size)
 
     else:
         if args.sample_size is None:
             args.sample_size = DEFAULT_SAMPLE_SIZE
-        sample = reservoir_sample(fi.get_input(), args.sample_size)
+        sample = reservoir_sample(fi, args.sample_size)
 
     for line in chain(fi.header, sample):
         print line,

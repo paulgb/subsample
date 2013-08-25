@@ -82,11 +82,11 @@ and weaknesses.
 +------------------------+----------------+----------------+------------+
 |                        | Reservoir      | Approximate    | Two-pass   |
 +========================+================+================+============+
-| flag                   | ``--res``      | ``--app``      | ``--tp``   |
+| flag                   | ``-res``       | ``-app` `      | ``-tp``    |
 +------------------------+----------------+----------------+------------+
 | ``stdin``-compatible   | yes            | yes            | no         |
 +------------------------+----------------+----------------+------------+
-| space complexity       | ``O(ss * rs)`` | ``O(1)``       | ``O(ss)``  |
+| space complexity       | ``O(ss*rs)``   | ``O(1)``       | ``O(1)``   |
 +------------------------+----------------+----------------+------------+
 | fixed sample size      | compatible     | not compatible | compatible |
 +------------------------+----------------+----------------+------------+
@@ -106,7 +106,7 @@ amount of data in the sample.
 Reservoir sampling is the default algorithm used by ``sample``. For consistency,
 it can also be invoked with the argument ``--reservoir``.
 
-If reservoir sampling, the sample size must be fixed rather than fractional.
+When using reservoir sampling, the sample size must be fixed rather than fractional.
 
 Example::
 
@@ -133,15 +133,15 @@ Equivalently, supply a percentage instead of a fraction by switching the
 Two-Pass Sampling
 *****************
 
-Two-pass sampling is allowed two passes, first to count the number of records
-(ie. the population size) and second to emit the records which are part of the
-sample. Because of this it is not compatible with ``stdin`` as an input.
-
-As two-pass sampling knows the population size, it will accept the sample size
-as either a fraction or a fixed number of elements.
+Two-pass sampling uses two passes. The first is to count the number of records
+(ie. the population size) and the second is to emit the records which are part
+of the sample. Because of this it is not compatible with ``stdin`` as an input.
 
 Example::
 
+    > sample --two-pass -n 1000 my_data.csv > my_sample.csv
+
+Two-pass sampling also accepts the sample size as a fraction or percent::
+
     > sample --two-pass -p 15 my_data.csv > my_sample.csv
 
-Two-pass sampling uses memory proportional to the number of elements in the sample.
