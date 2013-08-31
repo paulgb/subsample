@@ -4,7 +4,7 @@ from setuptools import setup
 import subsample
 
 setup(name = 'subsample',
-      version = sample.__version__,
+      version = subsample.__version__,
       description = 'Command-line interface for sampling lines from text files',
       url = 'https://github.com/paulgb/subsample',
       author = 'Paul Butler',

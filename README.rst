@@ -147,3 +147,15 @@ Two-pass sampling also accepts the sample size as a fraction or percent::
 
     > subsample --two-pass -p 15 my_data.csv > my_sample.csv
 
+Tests
+-----
+
+A simple GNU Make-driven testing script is included. Run `make test` from
+`subsample`'s base directory after installing to run some regression tests.
+
+Due to the randomness inherent to random sampling, testing is limited to
+checking that the output is the same when the random seed is unchanged.
+This serves mainly to find new bugs introduced by changes in the future and
+does not imply that the code itself is correct (in the sense that the sample
+is truly random).
+
