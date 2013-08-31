@@ -135,9 +135,10 @@ Equivalently, supply a percentage instead of a fraction by switching the
 Two-Pass Sampling
 *****************
 
-Two-pass sampling uses two passes. The first is to count the number of records
-(ie. the population size) and the second is to emit the records which are part
-of the sample. Because of this it is not compatible with ``stdin`` as an input.
+As the name implies, two-pass sampling uses two passes: the first is to count the
+number of records (ie. the population size) and the second is to emit the records
+which are part of the sample. Because of this it is not compatible with ``stdin``
+as an input.
 
 Example::
 
