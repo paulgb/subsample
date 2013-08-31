@@ -1,18 +1,18 @@
 
 from setuptools import setup
 
-import sample
+import subsample
 
-setup(name = 'sample-cli',
+setup(name = 'subsample',
       version = sample.__version__,
       description = 'Command-line interface for sampling lines from text files',
-      url = 'https://github.com/paulgb/sample',
+      url = 'https://github.com/paulgb/subsample',
       author = 'Paul Butler',
       author_email = 'paulgb@gmail.com',
-      packages = ['sample'],
+      packages = ['subsample'],
       entry_points = {
           'console_scripts': [
-              'sample = sample.main:main'
+              'subsample = subsample.main:main'
           ]
       },
 )
