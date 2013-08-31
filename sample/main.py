@@ -8,6 +8,7 @@ import argparse
 from sys import stderr
 from itertools import chain
 import logging
+import random
 
 from algorithms import reservoir_sample, approximate_sample, two_pass_sample
 from file_input import FileInput
