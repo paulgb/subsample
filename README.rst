@@ -150,8 +150,8 @@ Two-pass sampling also accepts the sample size as a fraction or percent::
 Tests
 -----
 
-A simple GNU Make-driven testing script is included. Run `make test` from
-`subsample`'s base directory after installing to run some regression tests.
+A simple GNU Make-driven testing script is included. Run ``make test`` from
+``subsample``'s base directory after installing to run some regression tests.
 
 Due to the randomness inherent to random sampling, testing is limited to
 checking that the output is the same when the random seed is unchanged.
