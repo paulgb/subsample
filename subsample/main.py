@@ -22,7 +22,7 @@ PERCENT = 100
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='sample', description=__doc__)
+    parser = argparse.ArgumentParser(prog='subsample', description=__doc__)
     parser.add_argument('input_file', default='-',
             help='csv, tsv, or other newline-separated data file')
     parser.add_argument('--seed', '-s', type=int, default=None,
