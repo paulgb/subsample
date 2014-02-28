@@ -10,8 +10,8 @@ from itertools import chain
 import logging
 import random
 
-from algorithms import reservoir_sample, approximate_sample, two_pass_sample
-from file_input import FileInput
+from .algorithms import reservoir_sample, approximate_sample, two_pass_sample
+from .file_input import FileInput
 
 logging.basicConfig(level=logging.DEBUG, format='LOG %(asctime)s > %(message)s', datefmt='%H:%M')
 
@@ -57,29 +57,29 @@ def main():
         args.reservoir = True
 
     if args.two_pass and args.input_file == '-':
-        print >> stderr, ('The two-pass algorithm does not support standard input. '
-            'Use another algorithm or save to a file first.')
+        print(('The two-pass algorithm does not support standard input. '
+            'Use another algorithm or save to a file first.'), file=stderr)
         exit(1)
 
     if args.percent is not None and args.fraction is not None:
-        print >> stderr, 'If percent is specified, fraction must not be'
+        print('If percent is specified, fraction must not be', file=stderr)
         exit(1)
 
     if args.percent is not None:
         args.fraction = args.percent / 100
 
     if (args.fraction is not None) and (args.sample_size is not None):
-        print >> stderr, 'If sample size is specified, percent and fraction must not be.'
+        print('If sample size is specified, percent and fraction must not be.', file=stderr)
         exit(1)
 
     if (args.fraction is not None) and args.reservoir:
-        print >> stderr, ('percent and fraction cannot be used with reservoir algorithm; '
-            'use sample size instead.')
+        print(('percent and fraction cannot be used with reservoir algorithm; '
+            'use sample size instead.'), file=stderr)
         exit(1)
 
     if (args.sample_size is not None) and args.approximate:
-        print >> stderr, ('sample size cannot be given with the approximate algorithm; '
-            'use fraction or percent instead.')
+        print(('sample size cannot be given with the approximate algorithm; '
+            'use fraction or percent instead.'), file=stderr)
         exit(1)
 
     fi = FileInput(args.input_file, args.header_rows)
@@ -106,7 +106,7 @@ def main():
         sample = reservoir_sample(fi, args.sample_size)
 
     for line in chain(fi.header, sample):
-        print line,
+        print(line, end=' ')
 
 
 if __name__ == '__main__':

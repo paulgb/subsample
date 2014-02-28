@@ -7,8 +7,8 @@ def main():
 
     args = parser.parse_args()
 
-    for i in xrange(args.n):
-        print i
+    for i in range(args.n):
+        print(i)
 
 if __name__ == '__main__':
     main()
