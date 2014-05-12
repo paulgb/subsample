@@ -4,6 +4,7 @@ Sample lines from text files (for example, rows of a .csv or .tsv file)
 from the command line.
 '''
 
+from __future__ import print_function
 import argparse
 from sys import stderr
 from itertools import chain
