@@ -107,7 +107,7 @@ def main():
         sample = reservoir_sample(fi, args.sample_size)
 
     for line in chain(fi.header, sample):
-        print(line, end=' ')
+        print(line, end='')
 
 
 if __name__ == '__main__':

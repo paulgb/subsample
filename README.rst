@@ -92,9 +92,15 @@ and weaknesses.
 +------------------------+----------------+----------------+------------+
 | fractional sample size | not compatible | compatible     | compatible |
 +------------------------+----------------+----------------+------------+
+| sample order           | random         | source         | source     |
++------------------------+----------------+----------------+------------+
 
 For space complexity, ``ss`` is the number of records in the sample and
 ``rs`` is the maximum size of a record.
+
+Sample order is the order of the records returned. Only reservoir sampling
+gives results in random order; approximate and two-pass return results
+in the same order as the source data.
 
 Reservoir Sampling
 ******************

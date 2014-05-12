@@ -51,6 +51,8 @@ def two_pass_sample(rows, sample_size=None, fraction=None):
     are emitted.
     '''
     population_size = sum(1 for _ in rows)
+    if fraction is not None:
+        sample_size = population_size * fraction
 
     for row in rows:
         # choose 
