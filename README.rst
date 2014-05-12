@@ -41,6 +41,16 @@ to ``big_data_sample.csv``, run the following command::
 
     > subsample -n 1000 big_data.csv > big_data_sample.csv
 
+Sampling from STDIN
+*******************
+
+To use standard input as the source, use `-` as the filename, eg::
+
+    > subsample -n 1000 < big_data.csv > big_data_sample.csv
+
+Note that only reservoir sampling supports stdin because the other
+sampling algorithms require a seekable input stream.
+
 Header Rows
 ***********
 
