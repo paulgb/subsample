@@ -12,10 +12,11 @@ def reservoir_sample(rows, sample_size):
     One-pass; entire sample must fit in memory
     '''
 
+    rx = iter(rows)
     # initialize the reservoir with the first sample_size items
-    reservoir = list(islice(rows, sample_size))
+    reservoir = list(islice(rx, sample_size))
 
-    for i, row in enumerate(rows, sample_size):
+    for i, row in enumerate(rx, sample_size):
         # for each item, choose whether it becomes part of the
         # reservoir with decreasing probability
         r = random.randint(0, i)
